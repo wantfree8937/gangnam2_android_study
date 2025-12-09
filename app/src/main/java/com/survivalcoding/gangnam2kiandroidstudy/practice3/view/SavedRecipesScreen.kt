@@ -4,9 +4,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Icon
@@ -27,6 +31,8 @@ import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.practice1.RecipeCard
 import com.survivalcoding.gangnam2kiandroidstudy.practice3.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.practice3.viewmodel.SavedRecipesViewModel
+import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
+import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
 fun SavedRecipesScreen(
@@ -39,18 +45,22 @@ fun SavedRecipesScreen(
 @Composable
 fun SavedRecipesContent(recipes: List<Recipe>) {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .statusBarsPadding(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Saved Recipes",
-            modifier = Modifier.padding(16.dp)
+            text = "Saved recipes",
+            modifier = Modifier.padding(10.dp),
+            style = AppTextStyles.mediumTextBold
         )
+        Spacer(modifier = Modifier.height(10.dp))
         LazyColumn(
             modifier = Modifier
                 .weight(1f)
-                .padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+                .padding(horizontal = 30.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             items(recipes) { recipe ->
                 RecipeCard(recipe = recipe)
@@ -65,69 +75,43 @@ fun BottomNavigationBar(modifier: Modifier = Modifier) {
     Row(
         modifier = modifier
             .fillMaxWidth()
+            .height(90.dp)
             .background(Color.White)
-            .padding(vertical = 8.dp),
+            .padding(top = 5.dp),
         horizontalArrangement = Arrangement.SpaceAround,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.Top
     ) {
         IconButton(onClick = { /* TODO: Handle navigation */ }) {
             Icon(
                 painter = painterResource(id = R.drawable.vector),
                 contentDescription = "Home",
-                tint = Color.LightGray
+                modifier = Modifier.size(24.dp),
+                tint = AppColors.gray4
             )
         }
         IconButton(onClick = { /* TODO: Handle navigation */ }) {
             Icon(
                 painter = painterResource(id = R.drawable.inactive),
                 contentDescription = "Saved",
-                tint = Color.LightGray
+                modifier = Modifier.size(24.dp),
+                tint = AppColors.gray4
             )
         }
         IconButton(onClick = { /* TODO: Handle navigation */ }) {
             Icon(
                 painter = painterResource(id = R.drawable.notification_bing),
                 contentDescription = "Notifications",
-                tint = Color.LightGray
+                modifier = Modifier.size(24.dp),
+                tint = AppColors.gray4
             )
         }
         IconButton(onClick = { /* TODO: Handle navigation */ }) {
             Icon(
                 painter = painterResource(id = R.drawable.profile),
                 contentDescription = "Profile",
-                tint = Color.LightGray
+                modifier = Modifier.size(24.dp),
+                tint = AppColors.gray4
             )
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun SavedRecipesScreenPreview() {
-    val sampleRecipes = listOf(
-        Recipe(
-            id = 1,
-            category = "Indian",
-            name = "Traditional spare ribs baked",
-            image = "https://images.unsplash.com/photo-1598515213692-5f2824124933?q=80&w=2070&auto=format&fit=crop",
-            chef = "Chef John",
-            time = "20 min",
-            rating = 4.0,
-            ingredients = emptyList()
-        ),
-        Recipe(
-            id = 2,
-            category = "Asian",
-            name = "Spice roasted chicken with flavored rice",
-            image = "https://images.unsplash.com/photo-1598515213692-5f2824124933?q=80&w=2070&auto=format&fit=crop",
-            chef = "Mark Kelvin",
-            time = "20 min",
-            rating = 4.0,
-            ingredients = emptyList()
-        )
-    )
-
-    Surface(color = Color.White) {
-        SavedRecipesContent(recipes = sampleRecipes)
     }
 }
