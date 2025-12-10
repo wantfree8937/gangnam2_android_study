@@ -5,7 +5,6 @@ import com.survivalcoding.gangnam2kiandroidstudy.practice3.model.RecipeResponse
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
-// 이제 HttpClient가 필요 없으므로 생성자에서 제거합니다.
 class RecipeDataSourceImpl : RecipeDataSource {
 
     private val mockJsonData = """
