@@ -36,7 +36,9 @@ fun InputField(
         OutlinedTextField(
             value = value,
             onValueChange = onValueChange,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(40.dp),
             placeholder = {
                 Text(
                     text = placeholder,

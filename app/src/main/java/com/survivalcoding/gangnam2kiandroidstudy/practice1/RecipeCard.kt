@@ -39,7 +39,8 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 @Composable
 fun RecipeCard(
     modifier: Modifier = Modifier,
-    recipe: Recipe
+    recipe: Recipe,
+    showDetails: Boolean = true
 ) {
     Box(
         modifier = modifier
@@ -95,7 +96,7 @@ fun RecipeCard(
                     modifier = Modifier.widthIn(max = 157.dp),
                     text = recipe.name,
                     color = Color.White,
-                    style = AppTextStyles.smallTextBold,
+                    style = AppTextStyles.smallerTextBold,
                     lineHeight = 20.sp
                 )
 
@@ -110,36 +111,38 @@ fun RecipeCard(
                         style = AppTextStyles.smallerTextSmallLable
                     )
 
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.timer),
-                                contentDescription = "조리 시간",
-                                tint = Color.White,
-                                modifier = Modifier.size(17.dp)
-                            )
-                            Spacer(modifier = Modifier.width(5.dp))
-                            Text(
-                                text = recipe.time,
-                                color = Color.White,
-                                style = AppTextStyles.smallTextRegular2
-                            )
-                        }
-                        Spacer(modifier = Modifier.width(10.dp))
-                        Box(
-                            modifier = Modifier
-                                .size(24.dp)
-                                .clip(RoundedCornerShape(12.dp))
-                                .background(color = AppColors.white),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Image(
-                                painter = painterResource(id = R.drawable.inactive),
-                                contentDescription = "북마크",
-                                modifier = Modifier.size(16.dp)
-                            )
+                    if (showDetails) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.timer),
+                                    contentDescription = "조리 시간",
+                                    tint = Color.White,
+                                    modifier = Modifier.size(17.dp)
+                                )
+                                Spacer(modifier = Modifier.width(5.dp))
+                                Text(
+                                    text = recipe.time,
+                                    color = Color.White,
+                                    style = AppTextStyles.smallTextRegular2
+                                )
+                            }
+                            Spacer(modifier = Modifier.width(10.dp))
+                            Box(
+                                modifier = Modifier
+                                    .size(24.dp)
+                                    .clip(RoundedCornerShape(12.dp))
+                                    .background(color = AppColors.white),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.inactive),
+                                    contentDescription = "북마크",
+                                    modifier = Modifier.size(16.dp)
+                                )
+                            }
                         }
                     }
                 }
