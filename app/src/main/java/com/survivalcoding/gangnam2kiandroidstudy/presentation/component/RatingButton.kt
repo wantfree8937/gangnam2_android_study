@@ -59,7 +59,7 @@ fun RatingButton(
             imageVector = Icons.Default.Star,
             contentDescription = "Rating",
             tint = contentColor,
-            modifier = Modifier.size(16.dp)
+            modifier = Modifier.size(18.dp)
         )
     }
 }
