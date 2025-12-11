@@ -143,13 +143,3 @@ fun FilterSearchBottomSheet(
         }
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-private fun FilterSearchBottomSheetPreview() {
-    FilterSearchBottomSheet(
-        onDismissRequest = {},
-        onFilter = {},
-        initialState = FilterSearchState()
-    )
-}

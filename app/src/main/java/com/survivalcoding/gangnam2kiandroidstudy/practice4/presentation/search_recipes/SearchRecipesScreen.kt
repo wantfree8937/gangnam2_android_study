@@ -149,9 +149,3 @@ fun SearchRecipesScreen(
         )
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun SearchRecipesScreenPreview() {
-    SearchRecipesScreen()
-}
