@@ -14,9 +14,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -37,40 +39,40 @@ class SearchRecipesViewModel(private val recipeRepository: RecipeRepository) : V
             _state.update { it.copy(recipes = allRecipes, allRecipes = allRecipes, isLoading = false) }
         }
 
-        state
-            .onEach { state ->
-                val filteredList = withContext(Dispatchers.Default) {
-                    var list = state.allRecipes
+        viewModelScope.launch {
+            state
+                .debounce(300L)
+                .collectLatest { currentState ->
+                    val filteredList = withContext(Dispatchers.Default) {
+                        var list = currentState.allRecipes
 
-                    if (state.searchQuery.isNotBlank()) {
-                        list = list.filter {
-                            it.name.contains(state.searchQuery, ignoreCase = true)
+                        if (currentState.searchQuery.isNotBlank()) {
+                            list = list.filter {
+                                it.name.contains(currentState.searchQuery, ignoreCase = true)
+                            }
                         }
-                    }
 
-                    state.appliedFilters.selectedCategory?.let { category ->
-                        if (category != "All") {
-                            list = list.filter { it.category.equals(category, ignoreCase = true) }
+                        currentState.appliedFilters.selectedCategory?.let { category ->
+                            if (category != "All") {
+                                list = list.filter { it.category.equals(category, ignoreCase = true) }
+                            }
                         }
-                    }
 
-                    state.appliedFilters.selectedRate?.let { rateString ->
-                        val rate = rateString.toIntOrNull() ?: 0
-                        list = list.filter { it.rating >= rate }
-                    }
+                        currentState.appliedFilters.selectedRate?.let { rateString ->
+                            val rate = rateString.toIntOrNull() ?: 0
+                            list = list.filter { it.rating >= rate }
+                        }
 
-                    when (state.appliedFilters.selectedTime) {
-                        "Newest" -> list = list.sortedByDescending { it.id }
-                        "Oldest" -> list = list.sortedBy { it.id }
-                        "All" -> Unit
+                        list = when (currentState.appliedFilters.selectedTime) {
+                            "Newest" -> list.sortedByDescending { it.id }
+                            "Oldest" -> list.sortedBy { it.id }
+                            else -> list
+                        }
+                        list
                     }
-                    list
+                    _state.update { it.copy(recipes = filteredList) }
                 }
-                _state.update { it.copy(recipes = filteredList) }
-            }
-            .debounce(100L)
-            .distinctUntilChanged()
-            .launchIn(viewModelScope)
+        }
     }
 
     fun onSearchQueryChanged(query: String) {

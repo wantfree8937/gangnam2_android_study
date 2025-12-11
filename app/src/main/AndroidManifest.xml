@@ -15,9 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Gangnam2kiAndroidStudy">
         <activity
-            android:name=".practice3.SavedRecipeActivity"
+            android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/title_activity_saved_recipe"
+            android:label="@string/app_name"
             android:theme="@style/Theme.Gangnam2kiAndroidStudy">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,11 +26,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.Gangnam2kiAndroidStudy">
-        </activity>
+            android:name=".practice3.SavedRecipeActivity"
+            android:exported="false"
+            android:label="@string/title_activity_saved_recipe"
+            android:theme="@style/Theme.Gangnam2kiAndroidStudy" />
     </application>
 
 </manifest>

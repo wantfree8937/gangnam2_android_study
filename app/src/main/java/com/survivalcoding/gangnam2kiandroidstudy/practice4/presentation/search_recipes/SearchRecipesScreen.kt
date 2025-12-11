@@ -22,21 +22,17 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.practice1.RecipeCard
+import com.survivalcoding.gangnam2kiandroidstudy.practice3.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterButton
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterSearchBottomSheet
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterSearchState
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SearchInputField
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
@@ -44,11 +40,13 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchRecipesScreen(
-    viewModel: SearchRecipesViewModel = viewModel(factory = SearchRecipesViewModel.Factory),
+    state: SearchRecipesState,
+    onQueryChange: (String) -> Unit,
+    onFilterChange: (FilterSearchState) -> Unit,
+    onShowFilter: () -> Unit,
+    showBottomSheet: Boolean,
+    onDismissBottomSheet: () -> Unit,
 ) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
-    var showBottomSheet by remember { mutableStateOf(false) }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -62,7 +60,7 @@ fun SearchRecipesScreen(
         ) {
             IconButton(
                 modifier = Modifier.align(Alignment.CenterStart),
-                onClick = { /* TODO: 뒤로가기 */ }
+                onClick = { /* 껍데기 */ }
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.arrow_left),
@@ -87,14 +85,13 @@ fun SearchRecipesScreen(
                     .weight(1f)
                     .fillMaxHeight(),
                 text = state.searchQuery,
-                onTextChanged = { viewModel.onSearchQueryChanged(it) },
+                onTextChanged = onQueryChange,
             )
             Spacer(modifier = Modifier.width(20.dp))
             FilterButton(
                 modifier = Modifier
                     .fillMaxHeight()
-                    .aspectRatio(1f),
-                onClick = { showBottomSheet = true }
+                    .aspectRatio(1f), onClick = onShowFilter
             )
         }
 
@@ -132,9 +129,7 @@ fun SearchRecipesScreen(
             ) {
                 items(state.recipes) { recipe ->
                     RecipeCard(
-                        modifier = Modifier.aspectRatio(1f),
-                        recipe = recipe,
-                        showDetails = false
+                        modifier = Modifier.aspectRatio(1f), recipe = recipe, showDetails = false
                     )
                 }
             }
@@ -143,9 +138,44 @@ fun SearchRecipesScreen(
 
     if (showBottomSheet) {
         FilterSearchBottomSheet(
-            onDismissRequest = { showBottomSheet = false },
-            onFilter = { viewModel.onFilterChanged(it) },
+            onDismissRequest = onDismissBottomSheet,
+            onFilter = onFilterChange,
             initialState = state.appliedFilters
         )
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SearchRecipesScreenPreview() {
+    SearchRecipesScreen(
+        state = SearchRecipesState(
+            recipes = listOf(
+                Recipe(
+                    id = 1,
+                    category = "dessert",
+                    name = "Korean BBQ",
+                    image = "",
+                    chef = "Gordon Ramsay",
+                    time = "15 Mins",
+                    rating = 4.5,
+                    ingredients = listOf()
+                ), Recipe(
+                    id = 2,
+                    category = "main course",
+                    name = "Bibimbap",
+                    image = "",
+                    chef = "John Torode",
+                    time = "20 Mins",
+                    rating = 4.2,
+                    ingredients = listOf()
+                )
+            )
+        ),
+        onQueryChange = {},
+        onFilterChange = {},
+        onShowFilter = {},
+        showBottomSheet = false,
+        onDismissBottomSheet = {}
+    )
 }

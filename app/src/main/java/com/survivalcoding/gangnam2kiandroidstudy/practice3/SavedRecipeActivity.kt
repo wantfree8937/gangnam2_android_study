@@ -13,7 +13,6 @@ class SavedRecipeActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Gangnam2kiAndroidStudyTheme {
-                SearchRecipesScreen()
             }
         }
     }
