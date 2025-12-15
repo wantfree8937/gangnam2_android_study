@@ -2,7 +2,6 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.saved_recipes
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
@@ -26,7 +25,7 @@ class SavedRecipesViewModel(
 
     private val _error = MutableStateFlow<String?>(null)
     val error: StateFlow<String?> = _error.asStateFlow()
-    
+
     init {
         viewModelScope.launch {
             _recipes.value = repository.getRecipes()
@@ -38,15 +37,13 @@ class SavedRecipesViewModel(
             } finally {
                 _isLoading.value = false
             }
-         }
-     }
-    
+        }
+    }
+
     companion object {
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
+        fun factory(application: AppApplication): ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                val repository =
-                    (this[APPLICATION_KEY] as AppApplication).recipeRepository
-                SavedRecipesViewModel(repository)
+                SavedRecipesViewModel(application.recipeRepository)
             }
         }
     }

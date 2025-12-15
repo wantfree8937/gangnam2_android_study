@@ -38,7 +38,7 @@ fun InputField(
             onValueChange = onValueChange,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(40.dp),
+                .weight(1f),
             placeholder = {
                 Text(
                     text = placeholder,

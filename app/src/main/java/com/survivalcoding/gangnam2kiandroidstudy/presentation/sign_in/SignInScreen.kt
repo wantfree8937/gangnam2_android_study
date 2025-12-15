@@ -93,7 +93,10 @@ fun SignInScreen(
                 Spacer(modifier = Modifier.height(25.dp))
                 BigButton(
                     text = "Sign In"
-                )
+                ) {
+                    backStack.clear()
+                    backStack.add(Route.Main)
+                }
                 Spacer(modifier = Modifier.height(20.dp))
                 Row(
                     verticalAlignment = Alignment.CenterVertically

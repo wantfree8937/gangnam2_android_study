@@ -7,6 +7,9 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.home.HomeRoot
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.main.MainScreen
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.saved_recipes.SavedRecipesRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.sign_in.SignInScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.sign_up.SignUpScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.title.TitleScreen
@@ -36,13 +39,41 @@ fun NavigationRoot(
 
             entry<Route.SignIn> {
                 SignInScreen(
-                    backStack = rememberNavBackStack(Route.SignIn)
+                    backStack = topLevelBackStack
                 )
             }
 
             entry<Route.SignUp> {
                 SignUpScreen(
-                    backStack = rememberNavBackStack(Route.SignUp),
+                    backStack = topLevelBackStack,
+                )
+            }
+
+            entry<Route.Main> {
+                val tabBackStack = rememberNavBackStack(Route.Home)
+
+                MainScreen(
+                    backStack = tabBackStack,
+                    onTabSelected = {
+                        if (tabBackStack.last() != it) {
+                            tabBackStack.clear()
+                            tabBackStack.add(it)
+                        }
+                    },
+                    body = {
+                        NavDisplay(
+                            modifier = modifier,
+                            backStack = tabBackStack,
+                            entryProvider = entryProvider {
+                                entry<Route.Home> {
+                                    HomeRoot()
+                                }
+                                entry<Route.SavedRecipes> {
+                                    SavedRecipesRoot()
+                                }
+                            }
+                        )
+                    }
                 )
             }
         }

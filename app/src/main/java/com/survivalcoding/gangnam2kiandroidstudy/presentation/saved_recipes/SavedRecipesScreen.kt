@@ -1,46 +1,25 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.saved_recipes
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.survivalcoding.gangnam2kiandroidstudy.R
-import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCard
 import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
-import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCard
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
-fun SavedRecipesScreen(
-    viewModel: SavedRecipesViewModel = viewModel(factory = SavedRecipesViewModel.Factory)
-) {
-    val recipes by viewModel.recipes.collectAsState()
-    SavedRecipesContent(recipes = recipes)
-}
-
-@Composable
-fun SavedRecipesContent(recipes: List<Recipe>) {
+fun SavedRecipesScreen(recipes: List<Recipe>) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -62,53 +41,6 @@ fun SavedRecipesContent(recipes: List<Recipe>) {
             items(recipes) { recipe ->
                 RecipeCard(recipe = recipe)
             }
-        }
-        BottomNavigationBar()
-    }
-}
-
-@Composable
-fun BottomNavigationBar(modifier: Modifier = Modifier) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(90.dp)
-            .background(Color.White)
-            .padding(top = 5.dp),
-        horizontalArrangement = Arrangement.SpaceAround,
-        verticalAlignment = Alignment.Top
-    ) {
-        IconButton(onClick = { /* TODO: Handle navigation */ }) {
-            Icon(
-                painter = painterResource(id = R.drawable.vector),
-                contentDescription = "Home",
-                modifier = Modifier.size(24.dp),
-                tint = AppColors.gray4
-            )
-        }
-        IconButton(onClick = { /* TODO: Handle navigation */ }) {
-            Icon(
-                painter = painterResource(id = R.drawable.inactive),
-                contentDescription = "Saved",
-                modifier = Modifier.size(24.dp),
-                tint = AppColors.gray4
-            )
-        }
-        IconButton(onClick = { /* TODO: Handle navigation */ }) {
-            Icon(
-                painter = painterResource(id = R.drawable.notification_bing),
-                contentDescription = "Notifications",
-                modifier = Modifier.size(24.dp),
-                tint = AppColors.gray4
-            )
-        }
-        IconButton(onClick = { /* TODO: Handle navigation */ }) {
-            Icon(
-                painter = painterResource(id = R.drawable.profile),
-                contentDescription = "Profile",
-                modifier = Modifier.size(24.dp),
-                tint = AppColors.gray4
-            )
         }
     }
 }
