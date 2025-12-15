@@ -25,11 +25,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".practice3.SavedRecipeActivity"
-            android:exported="false"
-            android:label="@string/title_activity_saved_recipe"
-            android:theme="@style/Theme.Gangnam2kiAndroidStudy" />
     </application>
 
 </manifest>
