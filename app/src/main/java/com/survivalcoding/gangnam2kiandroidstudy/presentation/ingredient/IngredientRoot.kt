@@ -1,7 +1,6 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.ingredient
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -23,10 +22,12 @@ fun IngredientRoot(
     )
 ) {
     val recipe by viewModel.recipe.collectAsStateWithLifecycle()
+    val procedures by viewModel.procedures.collectAsStateWithLifecycle()
     var selectedTab by remember { mutableStateOf("Ingredient") }
 
     IngredientScreen(
         recipe = recipe,
+        procedures = procedures,
         onBack = onBack,
         selectedTab = selectedTab,
         onTabSelected = { selectedTab = it }

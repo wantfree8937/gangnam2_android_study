@@ -53,7 +53,7 @@ fun RecipeCard(
 ) {
     Box(
         modifier = modifier
-            .height(150.dp)
+            .height(180.dp)
             .clip(RoundedCornerShape(10.dp))
             .clickable(onClick = onClick)
     ) {

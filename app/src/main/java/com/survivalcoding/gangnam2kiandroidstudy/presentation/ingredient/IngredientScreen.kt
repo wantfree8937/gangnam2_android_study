@@ -28,9 +28,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Ingredient
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Procedure
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeIngredient
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.IngredientItem
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.ProcedureStepItem
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCard
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.SmallButton
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
@@ -39,6 +41,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 @Composable
 fun IngredientScreen(
     recipe: Recipe,
+    procedures: List<Procedure>,
     onBack: () -> Unit,
     selectedTab: String,
     onTabSelected: (String) -> Unit
@@ -74,7 +77,8 @@ fun IngredientScreen(
             recipe = recipe,
             showRecipeName = false,
             showChefName = false,
-            onClick = {}
+            onClick = {},
+            isBookmarked = true
         )
         Spacer(modifier = Modifier.height(10.dp))
         Row(
@@ -85,7 +89,7 @@ fun IngredientScreen(
             Text(
                 modifier = Modifier.weight(1f),
                 text = recipe.name,
-                style = AppTextStyles.mediumTextBold,
+                style = AppTextStyles.smallTextBold,
                 color = AppColors.black
             )
             Spacer(modifier = Modifier.width(18.dp))
@@ -124,12 +128,16 @@ fun IngredientScreen(
                             tint = AppColors.primary80
                         )
                         Spacer(modifier = Modifier.width(4.dp))
-                        Text(text = "Lagos, Nigeria", color = AppColors.gray3)
+                        Text(
+                            text = "Lagos, Nigeria",
+                            style = AppTextStyles.smallTextRegular2,
+                            color = AppColors.gray3
+                        )
                     }
                 }
             }
             SmallButton(
-                modifier = Modifier.width(80.dp),
+                modifier = Modifier.width(90.dp),
                 text = "Follow",
                 onClick = { /*TODO*/ },
                 isSelected = true
@@ -162,12 +170,17 @@ fun IngredientScreen(
             Icon(
                 painter = painterResource(id = R.drawable.serve),
                 contentDescription = "Serve",
-                tint = AppColors.gray2
+                tint = AppColors.gray3
             )
             Spacer(modifier = Modifier.width(8.dp))
-            Text(text = "1 serve", color = AppColors.gray2)
+            Text(text = "1 serve", color = AppColors.gray3)
             Spacer(modifier = Modifier.weight(1f))
-            Text(text = "${recipe.ingredients.size} Items", color = AppColors.gray2)
+            val itemsText = if (selectedTab == "Ingredient") {
+                "${recipe.ingredients.size} Items"
+            } else {
+                "${procedures.size} Steps"
+            }
+            Text(text = itemsText, color = AppColors.gray3)
         }
         Spacer(modifier = Modifier.height(20.dp))
 
@@ -181,7 +194,17 @@ fun IngredientScreen(
                 }
             }
         } else {
-            // TODO: Procedure Content
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                items(procedures) { procedure ->
+                    ProcedureStepItem(
+                        stepNumber = procedure.step,
+                        stepDescription = procedure.description
+                    )
+                }
+            }
         }
     }
 }
@@ -204,5 +227,16 @@ fun IngredientScreenPreview() {
             RecipeIngredient(Ingredient(4, "Slice Bread", ""), 300)
         )
     )
-    IngredientScreen(recipe = sampleRecipe, onBack = {}, selectedTab = "Ingredient", onTabSelected = {})
+    val sampleProcedures = listOf(
+        Procedure(1, 1, "Lorem Ipsum tempor incididunt ut labore et dolore,in voluptate velit esse cillum dolore eu fugiat nulla pariatur?"),
+        Procedure(1, 2, "Tempor incididunt ut labore et dolore,in voluptate velit esse cillum dolore eu fugiat nulla pariatur?"),
+        Procedure(1, 3, "Lorem Ipsum tempor incididunt ut labore et dolore, in voluptate velit esse cillum dolore eu fugiat nulla pariatur?")
+    )
+    IngredientScreen(
+        recipe = sampleRecipe,
+        procedures = sampleProcedures,
+        onBack = {},
+        selectedTab = "Procedure",
+        onTabSelected = {}
+    )
 }

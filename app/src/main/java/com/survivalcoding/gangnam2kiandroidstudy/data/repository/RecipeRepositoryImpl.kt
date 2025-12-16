@@ -15,16 +15,8 @@ class RecipeRepositoryImpl(
         dataSource.getRecipes()
     }
 
-    override suspend fun getRecipe(id: Int): Recipe? = withContext(Dispatchers.IO) {
+    override suspend fun getRecipe(id: Int): Recipe = withContext(Dispatchers.IO) {
         val recipes = dataSource.getRecipes()
-        recipes.find { it.id == id }
-    }
-
-    override suspend fun getIngredient(id: Int): Ingredient? = withContext(Dispatchers.IO) {
-        val recipes = dataSource.getRecipes()
-        recipes
-            .flatMap { it.ingredients }
-            .find { it.ingredient.id == id }
-            ?.ingredient
+        recipes.find { it.id == id } ?: throw IllegalStateException("Recipe with id $id not found")
     }
 }

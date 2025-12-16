@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Procedure
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.GetRecipeDetailsUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,27 +33,31 @@ class IngredientViewModel(
     )
     val recipe: StateFlow<Recipe> = _recipe.asStateFlow()
 
+    private val _procedures = MutableStateFlow<List<Procedure>>(emptyList())
+    val procedures: StateFlow<List<Procedure>> = _procedures.asStateFlow()
+
     init {
         viewModelScope.launch {
-            getRecipeDetailsUseCase.execute(recipeId)?.let { details ->
-                _recipe.value = details.recipe
-            }
+            val details = getRecipeDetailsUseCase.execute(recipeId)
+            _recipe.value = details.recipe
+            _procedures.value = details.procedures
         }
     }
 
     companion object {
-        fun factory(recipeId: Int, application: AppApplication): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val getRecipeDetailsUseCase = GetRecipeDetailsUseCase(
-                    recipeRepository = application.recipeRepository,
-                    ingredientRepository = application.ingredientRepository,
-                    procedureRepository = application.procedureRepository
-                )
-                IngredientViewModel(
-                    recipeId = recipeId,
-                    getRecipeDetailsUseCase = getRecipeDetailsUseCase
-                )
+        fun factory(recipeId: Int, application: AppApplication): ViewModelProvider.Factory =
+            viewModelFactory {
+                initializer {
+                    val getRecipeDetailsUseCase = GetRecipeDetailsUseCase(
+                        recipeRepository = application.recipeRepository,
+                        ingredientRepository = application.ingredientRepository,
+                        procedureRepository = application.procedureRepository
+                    )
+                    IngredientViewModel(
+                        recipeId = recipeId,
+                        getRecipeDetailsUseCase = getRecipeDetailsUseCase
+                    )
+                }
             }
-        }
     }
 }
