@@ -62,7 +62,7 @@ fun NavigationRoot(
                     },
                     body = {
                         NavDisplay(
-                            modifier = modifier,
+                            modifier = it,
                             backStack = tabBackStack,
                             entryProvider = entryProvider {
                                 entry<Route.Home> {
