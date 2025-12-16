@@ -19,8 +19,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.Ingredient
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.RecipeIngredient
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Ingredient
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeIngredient
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 

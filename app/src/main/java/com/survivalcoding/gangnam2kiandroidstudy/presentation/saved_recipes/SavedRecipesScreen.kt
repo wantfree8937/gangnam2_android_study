@@ -14,12 +14,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.RecipeCard
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @Composable
-fun SavedRecipesScreen(recipes: List<Recipe>) {
+fun SavedRecipesScreen(
+    recipes: List<Recipe>,
+    onRecipeClick: (Int) -> Unit,
+    onBookmarkClick: (Recipe) -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -39,7 +43,13 @@ fun SavedRecipesScreen(recipes: List<Recipe>) {
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             items(recipes) { recipe ->
-                RecipeCard(recipe = recipe)
+                RecipeCard(
+                    recipe = recipe,
+                    onClick = { onRecipeClick(recipe.id) },
+                    onBookmarkClick = { onBookmarkClick(recipe) },
+                    isBookmarked = true,
+                    nameTextStyle = AppTextStyles.smallTextBold
+                )
             }
         }
     }

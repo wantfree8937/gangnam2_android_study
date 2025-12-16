@@ -23,7 +23,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
@@ -73,13 +72,13 @@ fun FilterSearchBottomSheet(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    timeFilters.forEach {
-                        TextFilterButton(
+                    timeFilters.forEach { 
+                        SmallButton(
                             text = it,
-                            isSelected = filterState.selectedTime == it,
                             onClick = {
                                 filterState = filterState.copy(selectedTime = if (filterState.selectedTime == it) null else it)
-                            }
+                            },
+                            isSelected = filterState.selectedTime == it
                         )
                     }
                 }
@@ -95,13 +94,13 @@ fun FilterSearchBottomSheet(
                     horizontalArrangement = Arrangement.spacedBy(15.dp),
                     verticalArrangement = Arrangement.spacedBy(15.dp)
                 ) {
-                    rateFilters.forEach {
-                        RatingButton(
-                            rating = it,
-                            isSelected = filterState.selectedRate == it,
+                    rateFilters.forEach { 
+                        SmallButton(
+                            text = "$it Star",
                             onClick = {
                                 filterState = filterState.copy(selectedRate = if (filterState.selectedRate == it) null else it)
-                            }
+                            },
+                            isSelected = filterState.selectedRate == it
                         )
                     }
                 }
@@ -117,13 +116,13 @@ fun FilterSearchBottomSheet(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    categoryFilters.forEach {
-                        TextFilterButton(
+                    categoryFilters.forEach { 
+                        SmallButton(
                             text = it,
-                            isSelected = filterState.selectedCategory == it,
                             onClick = {
                                 filterState = filterState.copy(selectedCategory = if (filterState.selectedCategory == it) null else it)
-                            }
+                            },
+                            isSelected = filterState.selectedCategory == it
                         )
                     }
                 }
@@ -136,7 +135,8 @@ fun FilterSearchBottomSheet(
                     onClick = {
                         onFilter(filterState)
                         onDismissRequest()
-                    }
+                    },
+                    isSelected = true // Always selected
                 )
             }
             Spacer(modifier = Modifier.height(22.dp))

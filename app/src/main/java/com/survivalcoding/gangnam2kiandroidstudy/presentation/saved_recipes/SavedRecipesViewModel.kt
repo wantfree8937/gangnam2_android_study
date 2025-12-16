@@ -6,15 +6,15 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
-import com.survivalcoding.gangnam2kiandroidstudy.data.repository.RecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.GetSavedRecipesUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class SavedRecipesViewModel(
-    private val repository: RecipeRepository
+    private val getSavedRecipesUseCase: GetSavedRecipesUseCase
 ) : ViewModel() {
 
     private val _recipes = MutableStateFlow<List<Recipe>>(emptyList())
@@ -26,12 +26,14 @@ class SavedRecipesViewModel(
     private val _error = MutableStateFlow<String?>(null)
     val error: StateFlow<String?> = _error.asStateFlow()
 
+    private val _navigateToDetail = MutableStateFlow<Int?>(null)
+    val navigateToDetail: StateFlow<Int?> = _navigateToDetail.asStateFlow()
+
     init {
         viewModelScope.launch {
-            _recipes.value = repository.getRecipes()
+            _isLoading.value = true
             try {
-                _isLoading.value = true
-                _recipes.value = repository.getRecipes()
+                _recipes.value = getSavedRecipesUseCase.execute()
             } catch (e: Exception) {
                 _error.value = e.message ?: "알 수 없는 오류가 발생했습니다"
             } finally {
@@ -40,10 +42,22 @@ class SavedRecipesViewModel(
         }
     }
 
+    fun onRecipeClick(recipeId: Int) {
+        _navigateToDetail.value = recipeId
+    }
+
+    fun toggleBookmark(recipe: Recipe) {
+        viewModelScope.launch {
+            getSavedRecipesUseCase.toggleBookmark(recipe)
+            _recipes.value = getSavedRecipesUseCase.execute()
+        }
+    }
+
     companion object {
         fun factory(application: AppApplication): ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                SavedRecipesViewModel(application.recipeRepository)
+                val getSavedRecipesUseCase = GetSavedRecipesUseCase(application.bookmarkRepository)
+                SavedRecipesViewModel(getSavedRecipesUseCase)
             }
         }
     }

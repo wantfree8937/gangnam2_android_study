@@ -8,6 +8,7 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.home.HomeRoot
+import com.survivalcoding.gangnam2kiandroidstudy.presentation.ingredient.IngredientRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.main.MainScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.saved_recipes.SavedRecipesRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.sign_in.SignInScreen
@@ -69,11 +70,21 @@ fun NavigationRoot(
                                     HomeRoot()
                                 }
                                 entry<Route.SavedRecipes> {
-                                    SavedRecipesRoot()
+                                    SavedRecipesRoot(
+                                        onRecipeClick = { recipeId ->
+                                            topLevelBackStack.add(Route.RecipeDetail(recipeId))
+                                        }
+                                    )
                                 }
                             }
                         )
                     }
+                )
+            }
+            entry<Route.RecipeDetail> { navKey ->
+                IngredientRoot(
+                    recipeId = navKey.recipeId,
+                    onBack = { topLevelBackStack.removeLast() }
                 )
             }
         }

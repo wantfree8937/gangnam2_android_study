@@ -1,5 +1,6 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.main
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -22,7 +23,7 @@ fun MainScreen(
                 onTabSelected = onTabSelected
             )
         }
-    ) {
-        body(Modifier)
+    ) { innerPadding ->
+        body(Modifier.padding(innerPadding))
     }
 }

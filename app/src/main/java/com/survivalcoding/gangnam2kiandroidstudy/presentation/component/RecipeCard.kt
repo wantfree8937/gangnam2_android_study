@@ -2,6 +2,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -27,12 +29,13 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.survivalcoding.gangnam2kiandroidstudy.R
-import com.survivalcoding.gangnam2kiandroidstudy.data.model.Recipe
+import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppColors
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
@@ -40,12 +43,19 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 fun RecipeCard(
     modifier: Modifier = Modifier,
     recipe: Recipe,
-    showDetails: Boolean = true
+    onClick: () -> Unit = {},
+    showDetails: Boolean = true,
+    showRecipeName: Boolean = true,
+    showChefName: Boolean = true,
+    nameTextStyle: TextStyle = AppTextStyles.smallerTextBold,
+    isBookmarked: Boolean = false,
+    onBookmarkClick: () -> Unit = {}
 ) {
     Box(
         modifier = modifier
-            .size(width = 315.dp, height = 150.dp)
+            .height(150.dp)
             .clip(RoundedCornerShape(10.dp))
+            .clickable(onClick = onClick)
     ) {
         AsyncImage(
             model = recipe.image,
@@ -92,24 +102,29 @@ fun RecipeCard(
             }
 
             Column(modifier = Modifier.align(Alignment.BottomStart)) {
-                Text(
-                    modifier = Modifier.widthIn(max = 157.dp),
-                    text = recipe.name,
-                    color = Color.White,
-                    style = AppTextStyles.smallerTextBold,
-                    lineHeight = 20.sp
-                )
+                if (showRecipeName) {
+                    Text(
+                        modifier = Modifier.widthIn(max = 157.dp),
+                        text = recipe.name,
+                        color = Color.White,
+                        style = nameTextStyle,
+                        lineHeight = 20.sp
+                    )
+                }
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text(
-                        text = "By ${recipe.chef}",
-                        color = Color.White,
-                        style = AppTextStyles.smallerTextSmallLable
-                    )
+                    if (showChefName) {
+                        Text(
+                            text = "By ${recipe.chef}",
+                            color = Color.White,
+                            style = AppTextStyles.smallerTextSmallLable
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.weight(1f))
 
                     if (showDetails) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -134,13 +149,15 @@ fun RecipeCard(
                                 modifier = Modifier
                                     .size(24.dp)
                                     .clip(RoundedCornerShape(12.dp))
-                                    .background(color = AppColors.white),
+                                    .background(color = AppColors.white)
+                                    .clickable { onBookmarkClick() },
                                 contentAlignment = Alignment.Center
                             ) {
-                                Image(
+                                Icon(
                                     painter = painterResource(id = R.drawable.inactive),
                                     contentDescription = "북마크",
-                                    modifier = Modifier.size(16.dp)
+                                    modifier = Modifier.size(16.dp),
+                                    tint = if (isBookmarked) AppColors.primary100 else AppColors.gray3
                                 )
                             }
                         }
@@ -166,8 +183,9 @@ fun RecipeCardPreview() {
     )
     Surface(color = Color.DarkGray) {
         RecipeCard(
-            modifier = Modifier.padding(16.dp),
-            recipe = sampleRecipe
+            modifier = Modifier.padding(16.dp).width(315.dp),
+            recipe = sampleRecipe,
+            onClick = {}
         )
     }
 }
