@@ -6,15 +6,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SavedRecipesRoot(
     onRecipeClick: (Int) -> Unit,
-    viewModel: SavedRecipesViewModel = viewModel(
-        factory = SavedRecipesViewModel.factory(
-            LocalContext.current.applicationContext as AppApplication
-        )
-    )
+    viewModel: SavedRecipesViewModel = koinViewModel()
 ) {
     val recipes by viewModel.recipes.collectAsState()
 

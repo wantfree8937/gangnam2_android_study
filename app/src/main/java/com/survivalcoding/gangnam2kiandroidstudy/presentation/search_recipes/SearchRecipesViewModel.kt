@@ -96,15 +96,5 @@ class SearchRecipesViewModel(private val recipeRepository: RecipeRepository) : V
     fun onFilterChanged(filterState: FilterSearchState) {
         _state.update { it.copy(appliedFilters = filterState) }
     }
-
-    companion object {
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val application = this[APPLICATION_KEY] as AppApplication
-                val recipeRepository = application.recipeRepository
-                SearchRecipesViewModel(recipeRepository)
-            }
-        }
-    }
 }
 

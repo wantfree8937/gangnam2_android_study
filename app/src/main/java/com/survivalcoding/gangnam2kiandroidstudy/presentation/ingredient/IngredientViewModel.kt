@@ -43,21 +43,4 @@ class IngredientViewModel(
             _procedures.value = details.procedures
         }
     }
-
-    companion object {
-        fun factory(recipeId: Int, application: AppApplication): ViewModelProvider.Factory =
-            viewModelFactory {
-                initializer {
-                    val getRecipeDetailsUseCase = GetRecipeDetailsUseCase(
-                        recipeRepository = application.recipeRepository,
-                        ingredientRepository = application.ingredientRepository,
-                        procedureRepository = application.procedureRepository
-                    )
-                    IngredientViewModel(
-                        recipeId = recipeId,
-                        getRecipeDetailsUseCase = getRecipeDetailsUseCase
-                    )
-                }
-            }
-    }
 }

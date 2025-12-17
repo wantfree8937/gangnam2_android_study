@@ -52,13 +52,4 @@ class SavedRecipesViewModel(
             _recipes.value = getSavedRecipesUseCase.execute()
         }
     }
-
-    companion object {
-        fun factory(application: AppApplication): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val getSavedRecipesUseCase = GetSavedRecipesUseCase(application.bookmarkRepository)
-                SavedRecipesViewModel(getSavedRecipesUseCase)
-            }
-        }
-    }
 }

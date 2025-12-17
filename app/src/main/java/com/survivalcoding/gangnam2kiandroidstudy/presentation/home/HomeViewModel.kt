@@ -80,19 +80,12 @@ class HomeViewModel(
                 currentState.allRecipes.filter { it.category.equals(category, ignoreCase = true) }
             }
 
-            val finalFilteredList = categoryFilteredList.filter { it.name.contains(query, ignoreCase = true) }
+            val finalFilteredList =
+                categoryFilteredList.filter { it.name.contains(query, ignoreCase = true) }
 
             currentState.copy(
                 recipes = finalFilteredList
             )
-        }
-    }
-
-    companion object {
-        fun factory(application: AppApplication): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                HomeViewModel(application.recipeRepository)
-            }
         }
     }
 }
