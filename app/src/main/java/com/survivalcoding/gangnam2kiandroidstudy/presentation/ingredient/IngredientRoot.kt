@@ -5,14 +5,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun IngredientRoot(
     recipeId: Int,
     onBack: () -> Unit,
-    viewModel: IngredientViewModel = viewModel()
+    viewModel: IngredientViewModel = hiltViewModel()
 ) {
     val recipe by viewModel.recipe.collectAsStateWithLifecycle()
     val procedures by viewModel.procedures.collectAsStateWithLifecycle()
