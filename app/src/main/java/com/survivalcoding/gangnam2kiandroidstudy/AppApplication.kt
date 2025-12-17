@@ -12,7 +12,9 @@ import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.IngredientRep
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ProcedureRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.GetRecipeDetailsUseCase
 import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.GetSavedRecipesUseCase
+import dagger.hilt.android.HiltAndroidApp
 
+@HiltAndroidApp
 class AppApplication : Application() {
 
     val getSavedRecipesUseCase: GetSavedRecipesUseCase by lazy {
