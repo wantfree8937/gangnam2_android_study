@@ -15,29 +15,5 @@ import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.GetSavedRecipes
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class AppApplication : Application() {
+class AppApplication : Application()
 
-    val getSavedRecipesUseCase: GetSavedRecipesUseCase by lazy {
-        GetSavedRecipesUseCase(bookmarkRepository)
-    }
-
-    val getRecipeDetailsUseCase: GetRecipeDetailsUseCase by lazy {
-        GetRecipeDetailsUseCase(recipeRepository, ingredientRepository, procedureRepository)
-    }
-
-    val recipeRepository: RecipeRepository by lazy {
-        RecipeRepositoryImpl(RecipeDataSourceImpl())
-    }
-
-    val bookmarkRepository: BookmarkRepository by lazy {
-        BookmarkRepositoryImpl(RecipeDataSourceImpl())
-    }
-
-    val ingredientRepository: IngredientRepository by lazy {
-        IngredientRepositoryImpl(RecipeDataSourceImpl())
-    }
-
-    val procedureRepository: ProcedureRepository by lazy {
-        ProcedureRepositoryImpl()
-    }
-}
