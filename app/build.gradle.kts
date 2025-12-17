@@ -7,7 +7,9 @@ plugins {
 
 android {
     namespace = "com.survivalcoding.gangnam2kiandroidstudy"
-    compileSdk = 36
+    compileSdk {
+        version = release(36)
+    }
 
     defaultConfig {
         applicationId = "com.survivalcoding.gangnam2kiandroidstudy"
@@ -41,59 +43,49 @@ android {
 }
 
 dependencies {
-    // Core & Activity
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
-
-    // Compose
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
-
-    // Lifecycle
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-
-    // Navigation
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.navigation3.ui)
-    implementation(libs.androidx.navigation3.runtime)
-    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
-    implementation(libs.androidx.material3.adaptive.navigation3)
-
-    // Networking & Data
-    implementation(libs.okhttp)
-    implementation(libs.kotlinx.serialization.json)
-
-    // Image Loading
-    implementation(libs.coil.compose)
-
-    // Test
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
-
-    // Debug
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+
+    // coil
+    // implementation("io.coil-kt.coil3:coil-compose:3.3.0")
+    // implementation("io.coil-kt.coil3:coil-network-okhttp:3.3.0")
+    implementation("io.coil-kt:coil-compose:2.6.0")
+
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose-android:2.10.0")
+
+    // Navigation
+    implementation(libs.androidx.navigation3.ui)
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
+    implementation(libs.androidx.material3.adaptive.navigation3)
+    implementation(libs.kotlinx.serialization.core)
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
 
     // Koin
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.core)
 
-    // 안드로이드용 Koin
+    // Android Koin
     implementation(platform("io.insert-koin:koin-bom:4.1.1"))
     implementation("io.insert-koin:koin-android")
 
-    // 컴포즈용 Koin
+    // Compose Koin
     implementation(platform("io.insert-koin:koin-bom:4.1.1"))
     implementation("io.insert-koin:koin-androidx-compose")
-    implementation("io.insert-koin:koin-androidx-compose-navigation")
 
-    // 네비게이션3 Koin
-    implementation("io.insert-koin:koin-compose-navigation3")
+    // Navigation 3 support (alpha)
+    implementation("io.insert-koin:koin-compose-navigation3:4.2.0-beta2")
 }
