@@ -12,6 +12,9 @@ import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.IngredientRep
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ProcedureRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.GetRecipeDetailsUseCase
 import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.GetSavedRecipesUseCase
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.GlobalContext.startKoin
 
 class AppApplication : Application() {
 
@@ -38,4 +41,15 @@ class AppApplication : Application() {
     val procedureRepository: ProcedureRepository by lazy {
         ProcedureRepositoryImpl()
     }
+
+    override fun onCreate() {
+        super.onCreate()
+
+        startKoin{
+            androidLogger()
+            androidContext(this@AppApplication)
+//            modules(appModule)
+        }
+    }
+
 }
