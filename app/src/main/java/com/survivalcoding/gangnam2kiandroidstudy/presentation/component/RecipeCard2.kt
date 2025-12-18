@@ -42,12 +42,15 @@ fun RecipeCard2(
     recipeName: String,
     time: String,
     rating: Double,
-    imageUrl: String
+    imageUrl: String,
+    onCardClick: () -> Unit,
+    onBookmarkClick: () -> Unit
 ) {
     Box(
         modifier = modifier
             .width(150.dp)
             .height(231.dp)
+            .clickable { onCardClick() }
     ) {
         Card(
             modifier = Modifier
@@ -94,7 +97,7 @@ fun RecipeCard2(
                             .size(24.dp)
                             .clip(CircleShape)
                             .background(AppColors.white)
-                            .clickable { /* TODO: Bookmark Click */ }
+                            .clickable { onBookmarkClick() }
                     ) {
                         Icon(
                             painter = painterResource(id = R.drawable.inactive),
@@ -152,6 +155,8 @@ private fun RecipeCard2Preview() {
         recipeName = "Crunchy Nut Coleslaw",
         time = "10 Mins",
         rating = 3.5,
-        imageUrl = ""
+        imageUrl = "",
+        onCardClick = {}, // Preview에서는 비워둡니다.
+        onBookmarkClick = {} // Preview에서는 비워둡니다.
     )
 }

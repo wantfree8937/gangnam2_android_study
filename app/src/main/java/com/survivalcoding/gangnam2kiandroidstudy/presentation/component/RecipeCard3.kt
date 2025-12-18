@@ -5,10 +5,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -46,44 +45,48 @@ fun RecipeCard3(
     recipeImageUrl: String,
     onClick: () -> Unit = {}
 ) {
-    Card(
+    Box(
         modifier = modifier
-            .width(200.dp)
-            .height(260.dp),
-        shape = RoundedCornerShape(20.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = Color.White
-        ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        onClick = onClick
+            .width(251.dp)
+            .height(140.dp)
     ) {
-        Box(modifier = Modifier.fillMaxSize()) {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(105.dp)
+                .align(Alignment.BottomCenter),
+            shape = RoundedCornerShape(10.dp),
+            colors = CardDefaults.cardColors(containerColor = Color.White),
+            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+            onClick = onClick
+        ) {
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp)
+                    .weight(1f)
+                    .fillMaxHeight()
+                    .padding(10.dp),
+                verticalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     text = recipeName,
-                    style = AppTextStyles.normalTextBold,
+                    style = AppTextStyles.smallTextBold,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
-                Spacer(modifier = Modifier.height(8.dp))
+
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     repeat(5) { index ->
                         Icon(
                             imageVector = Icons.Default.Star,
                             contentDescription = null,
                             tint = if (index < rating.toInt()) AppColors.secondary100 else AppColors.gray2,
-                            modifier = Modifier.size(16.dp)
+                            modifier = Modifier.size(14.dp)
                         )
                     }
                 }
-                Spacer(modifier = Modifier.weight(1f))
+
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -101,6 +104,7 @@ fun RecipeCard3(
                             color = AppColors.gray3
                         )
                     }
+                    Spacer(Modifier.weight(1f))
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
                             painter = painterResource(id = R.drawable.timer),
@@ -117,30 +121,32 @@ fun RecipeCard3(
                     }
                 }
             }
-
-            AsyncImage(
-                model = recipeImageUrl,
-                contentDescription = "recipe image",
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .offset(x = 40.dp, y = (-40).dp)
-                    .size(120.dp)
-                    .clip(CircleShape),
-                contentScale = ContentScale.Crop
-            )
         }
+
+        AsyncImage(
+            model = recipeImageUrl,
+            contentDescription = "recipe image",
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(end = 9.dp)
+                .size(80.dp)
+                .clip(CircleShape),
+            contentScale = ContentScale.Crop
+        )
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun RecipeCard3Preview() {
-    RecipeCard3(
-        recipeName = "Steak with tomato...",
-        rating = 4.5,
-        chefImageUrl = "",
-        chefName = "James Milner",
-        time = "20 mins",
-        recipeImageUrl = ""
-    )
+    Box(modifier = Modifier.padding(top = 40.dp)) {
+        RecipeCard3(
+            recipeName = "Steak with tomato...",
+            rating = 4.0,
+            chefImageUrl = "",
+            chefName = "James Milner",
+            time = "20 mins",
+            recipeImageUrl = ""
+        )
+    }
 }

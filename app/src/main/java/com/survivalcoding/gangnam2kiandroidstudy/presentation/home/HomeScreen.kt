@@ -19,7 +19,9 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -39,14 +41,13 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 @Composable
 fun HomeScreen(
     state: HomeState,
-    onSelectCategory: (String) -> Unit,
-    onQueryChanged: (String) -> Unit,
-    onRecipeClick: (Int) -> Unit
+    onAction: (HomeAction) -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .statusBarsPadding(),
+            .statusBarsPadding()
+            .verticalScroll(rememberScrollState())
     ) {
         Spacer(modifier = Modifier.height(20.dp))
         Row(
@@ -95,8 +96,10 @@ fun HomeScreen(
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxHeight(),
-                text = state.searchQuery,
-                onTextChanged = onQueryChanged,
+                text = "",
+                onTextChanged = {},
+                enabled = false,
+                onClick = { onAction(HomeAction.SearchClicked) }
             )
             Spacer(modifier = Modifier.width(20.dp))
             FilterButton(
@@ -109,11 +112,13 @@ fun HomeScreen(
         RecipeCategorySelector(
             modifier = Modifier.padding(horizontal = 30.dp),
             selectedCategory = state.selectedCategory,
-            onCategorySelected = onSelectCategory,
+            onCategorySelected = { category -> onAction(HomeAction.CategorySelected(category)) },
         )
         Spacer(modifier = Modifier.height(25.dp))
         LazyRow(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(231.dp),
             contentPadding = PaddingValues(horizontal = 30.dp),
             horizontalArrangement = Arrangement.spacedBy(15.dp)
         ) {
@@ -123,7 +128,8 @@ fun HomeScreen(
                     time = recipe.time,
                     rating = recipe.rating,
                     imageUrl = recipe.image,
-                    onClick = { onRecipeClick(recipe.id) }
+                    onCardClick = { onAction(HomeAction.RecipeClicked(recipe.id)) },
+                    onBookmarkClick = { onAction(HomeAction.RecipeBookmarked(recipe.id)) }
                 )
             }
         }
@@ -138,21 +144,24 @@ fun HomeScreen(
         )
         Spacer(modifier = Modifier.height(5.dp))
         LazyRow(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(260.dp),
             contentPadding = PaddingValues(horizontal = 30.dp),
             horizontalArrangement = Arrangement.spacedBy(15.dp)
         ) {
-            items(state.recipes.reversed()) { recipe -> // 임시로 reversed()를 사용하여 다른 데이터를 보여줍니다.
+            items(state.recipes) { recipe ->
                 RecipeCard3(
                     recipeName = recipe.name,
                     rating = recipe.rating,
-                    chefImageUrl = "", // chef 정보는 현재 Recipe 모델에 없으므로 비워둡니다.
+                    chefImageUrl = "",
                     chefName = recipe.chef,
                     time = recipe.time,
                     recipeImageUrl = recipe.image,
-                    onClick = { onRecipeClick(recipe.id) }
+                    onClick = { onAction(HomeAction.RecipeClicked(recipe.id)) }
                 )
             }
         }
+        Spacer(modifier = Modifier.height(20.dp))
     }
 }

@@ -1,9 +1,11 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.component
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -27,39 +29,52 @@ fun SearchInputField(
     modifier: Modifier = Modifier,
     text: String,
     onTextChanged: (String) -> Unit,
+    enabled: Boolean = true,
+    onClick: () -> Unit = {}
 ) {
-    BasicTextField(
-        value = text,
-        onValueChange = onTextChanged,
-        modifier = modifier,
-        singleLine = true,
-        textStyle = AppTextStyles.smallTextRegular2.copy(color = AppColors.black),
-        decorationBox = { innerTextField ->
-            Row(
-                modifier = Modifier
-                    .border(1.dp, AppColors.gray4, RoundedCornerShape(10.dp))
-                    .padding(horizontal = 12.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.search_normal),
-                    contentDescription = "Search",
-                    tint = AppColors.gray4
-                )
-                Spacer(Modifier.width(10.dp))
-                Box(modifier = Modifier.weight(1f)) {
-                    if (text.isEmpty()) {
-                        Text(
-                            text = "Search recipe",
-                            color = AppColors.gray4,
-                            style = AppTextStyles.smallTextRegular2
-                        )
+    Box(modifier = modifier) {
+        BasicTextField(
+            value = text,
+            onValueChange = onTextChanged,
+            modifier = Modifier.fillMaxSize(),
+            enabled = enabled,
+            singleLine = true,
+            textStyle = AppTextStyles.smallTextRegular2.copy(color = AppColors.black),
+            decorationBox = { innerTextField ->
+                Row(
+                    modifier = Modifier
+                        .border(1.dp, AppColors.gray4, RoundedCornerShape(10.dp))
+                        .padding(horizontal = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.search_normal),
+                        contentDescription = "Search",
+                        tint = AppColors.gray4
+                    )
+                    Spacer(Modifier.width(10.dp))
+                    Box(modifier = Modifier.weight(1f)) {
+                        if (text.isEmpty()) {
+                            Text(
+                                text = "Search recipe",
+                                color = AppColors.gray4,
+                                style = AppTextStyles.smallTextRegular2
+                            )
+                        }
+                        innerTextField()
                     }
-                    innerTextField()
                 }
             }
+        )
+
+        if (!enabled) {
+            Box(
+                modifier = Modifier
+                    .matchParentSize()
+                    .clickable(onClick = onClick)
+            )
         }
-    )
+    }
 }
 
 @Preview(showBackground = true)
@@ -70,6 +85,22 @@ fun SearchInputFieldPreview() {
             SearchInputField(
                 text = "",
                 onTextChanged = {},
+                enabled = true
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SearchInputFieldDisabledPreview() {
+    Gangnam2kiAndroidStudyTheme {
+        Surface {
+            SearchInputField(
+                text = "",
+                onTextChanged = {},
+                enabled = false,
+                onClick = {}
             )
         }
     }
