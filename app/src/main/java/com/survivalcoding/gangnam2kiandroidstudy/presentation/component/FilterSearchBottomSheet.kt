@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -24,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.survivalcoding.gangnam2kiandroidstudy.R
 import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
@@ -96,7 +98,8 @@ fun FilterSearchBottomSheet(
                 ) {
                     rateFilters.forEach { 
                         SmallButton(
-                            text = "$it Star",
+                            text = it,
+                            iconRes = R.drawable.star_2,
                             onClick = {
                                 filterState = filterState.copy(selectedRate = if (filterState.selectedRate == it) null else it)
                             },
@@ -131,12 +134,13 @@ fun FilterSearchBottomSheet(
 
             Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                 SmallButton(
+                    modifier = Modifier.width(174.dp),
                     text = "Filter",
                     onClick = {
                         onFilter(filterState)
                         onDismissRequest()
                     },
-                    isSelected = true // Always selected
+                    isSelected = true
                 )
             }
             Spacer(modifier = Modifier.height(22.dp))
