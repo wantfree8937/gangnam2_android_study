@@ -2,6 +2,8 @@ package com.survivalcoding.gangnam2kiandroidstudy.core.di
 
 import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.RecipeDataSource
 import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.RecipeDataSourceImpl
+import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.chef.ChefDataSource
+import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.chef.ChefDataSourceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,5 +18,11 @@ object DataSourceModule {
     @Singleton
     fun provideRecipeDataSource(): RecipeDataSource {
         return RecipeDataSourceImpl()
+    }
+
+    @Provides
+    @Singleton
+    fun provideChefDataSource(): ChefDataSource {
+        return ChefDataSourceImpl()
     }
 }
