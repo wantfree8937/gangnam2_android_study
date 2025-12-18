@@ -13,7 +13,6 @@ fun HomeRoot(
 
     HomeScreen(
         state = state,
-        onQueryChanged = viewModel::onQueryChanged,
-        onSelectCategory = viewModel::onSelectCategory
+        onAction = viewModel::onAction
     )
 }

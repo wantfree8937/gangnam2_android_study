@@ -26,9 +26,14 @@ class HomeViewModel @Inject constructor(
     private val _state = MutableStateFlow(HomeState())
     val state = _state.asStateFlow()
 
-    private val _searchKeywordFlow = state
-        .map { it.searchQuery }
-        .debounce(300L)
+    fun onAction(action: HomeAction) {
+        when(action) {
+            is HomeAction.SearchClicked -> {}
+            is HomeAction.CategorySelected -> onSelectCategory(action.category)
+            is HomeAction.RecipeClicked -> {}
+            is HomeAction.RecipeBookmarked -> {}
+        }
+    }
 
     init {
         viewModelScope.launch {
@@ -42,18 +47,11 @@ class HomeViewModel @Inject constructor(
                 )
             }
         }
-
-        viewModelScope.launch {
-            _searchKeywordFlow.collect { query ->
-                searchRecipes(query)
-            }
-        }
     }
 
-    fun onQueryChanged(query: String) {
-        _state.update { it.copy(searchQuery = query) }
-    }
+    fun onClickSearch(){
 
+    }
     fun onSelectCategory(category: String) {
         _state.update { currentState ->
             val query = currentState.searchQuery
@@ -73,21 +71,4 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun searchRecipes(query: String) {
-        _state.update { currentState ->
-            val category = currentState.selectedCategory
-
-            val categoryFilteredList = if (category.equals("All", ignoreCase = true)) {
-                currentState.allRecipes
-            } else {
-                currentState.allRecipes.filter { it.category.equals(category, ignoreCase = true) }
-            }
-
-            val finalFilteredList = categoryFilteredList.filter { it.name.contains(query, ignoreCase = true) }
-
-            currentState.copy(
-                recipes = finalFilteredList
-            )
-        }
-    }
 }
