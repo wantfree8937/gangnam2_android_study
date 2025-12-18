@@ -15,10 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class IngredientViewModel @Inject constructor(
-    private val getRecipeDetailsUseCase: GetRecipeDetailsUseCase,
-    savedStateHandle: SavedStateHandle
+    private val getRecipeDetailsUseCase: GetRecipeDetailsUseCase
 ) : ViewModel() {
-    private val recipeId: Int? = savedStateHandle.get<Int>("recipeId")
 
     private val _recipe = MutableStateFlow(
         Recipe(
@@ -37,7 +35,7 @@ class IngredientViewModel @Inject constructor(
     private val _procedures = MutableStateFlow<List<Procedure>>(emptyList())
     val procedures: StateFlow<List<Procedure>> = _procedures.asStateFlow()
 
-    init {
+    fun loadRecipe(recipeId: Int) {
         viewModelScope.launch {
             val details = getRecipeDetailsUseCase.execute(recipeId)
             _recipe.value = details.recipe

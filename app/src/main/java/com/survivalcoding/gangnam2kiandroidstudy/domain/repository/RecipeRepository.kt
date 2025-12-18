@@ -6,5 +6,5 @@ import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 interface RecipeRepository {
     suspend fun getRecipes(): List<Recipe>
 
-    suspend fun getRecipe(id: Int?): Recipe
+    suspend fun getRecipe(id: Int): Recipe
 }

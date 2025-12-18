@@ -8,7 +8,7 @@ import javax.inject.Inject
 class IngredientRepositoryImpl @Inject constructor(
     private val recipeDataSource: RecipeDataSource
 ): IngredientRepository {
-    override suspend fun getIngredients(recipeId: Int?): List<Ingredient> {
+    override suspend fun getIngredients(recipeId: Int): List<Ingredient> {
         val allRecipes = recipeDataSource.getRecipes()
         val recipe = allRecipes.find { it.id == recipeId }
         return recipe?.ingredients?.map { it.ingredient } ?: emptyList()

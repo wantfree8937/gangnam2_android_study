@@ -13,7 +13,7 @@ class GetRecipeDetailsUseCase @Inject constructor(
     private val ingredientRepository: IngredientRepository,
     private val procedureRepository: ProcedureRepository
 ) {
-    suspend fun execute(recipeId: Int?): RecipeDetails {
+    suspend fun execute(recipeId: Int): RecipeDetails {
         val recipe = recipeRepository.getRecipe(recipeId)
         val ingredients = ingredientRepository.getIngredients(recipeId)
         val procedures = procedureRepository.getProcedures()
