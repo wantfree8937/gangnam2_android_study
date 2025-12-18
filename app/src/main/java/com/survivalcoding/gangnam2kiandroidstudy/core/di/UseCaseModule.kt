@@ -10,17 +10,20 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object UseCaseModule {
 
     @Provides
+    @Singleton
     fun provideGetSavedRecipesUseCase(bookmarkRepository: BookmarkRepository): GetSavedRecipesUseCase {
         return GetSavedRecipesUseCase(bookmarkRepository)
     }
 
     @Provides
+    @Singleton
     fun provideGetRecipeDetailsUseCase(
         recipeRepository: RecipeRepository,
         ingredientRepository: IngredientRepository,

@@ -2,7 +2,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.data.data_source
 
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeResponse
-import jakarta.inject.Inject
+import javax.inject.Inject
 import kotlinx.serialization.json.Json
 
 class RecipeDataSourceImpl @Inject constructor() : RecipeDataSource {

@@ -3,7 +3,7 @@ package com.survivalcoding.gangnam2kiandroidstudy.data.repository
 import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.RecipeDataSource
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Ingredient
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.IngredientRepository
-import jakarta.inject.Inject
+import javax.inject.Inject
 
 class IngredientRepositoryImpl @Inject constructor(
     private val recipeDataSource: RecipeDataSource

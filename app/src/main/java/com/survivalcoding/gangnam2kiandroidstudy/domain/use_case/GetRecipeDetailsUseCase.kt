@@ -6,7 +6,7 @@ import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.IngredientRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.ProcedureRepository
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
-import jakarta.inject.Inject
+import javax.inject.Inject
 
 class GetRecipeDetailsUseCase @Inject constructor(
     private val recipeRepository: RecipeRepository,
