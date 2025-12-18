@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -60,66 +61,71 @@ fun RecipeCard3(
             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
             onClick = onClick
         ) {
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxHeight()
-                    .padding(10.dp),
-                verticalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = recipeName,
-                    style = AppTextStyles.smallTextBold,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
-
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    repeat(5) { index ->
-                        Icon(
-                            imageVector = Icons.Default.Star,
-                            contentDescription = null,
-                            tint = if (index < rating.toInt()) AppColors.secondary100 else AppColors.gray2,
-                            modifier = Modifier.size(14.dp)
-                        )
-                    }
-                }
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
+            Row {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(10.dp),
+                    verticalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        AsyncImage(
-                            model = chefImageUrl,
-                            contentDescription = "chef image",
-                            modifier = Modifier
-                                .size(30.dp)
-                                .clip(CircleShape)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
+                    Box(modifier = Modifier.fillMaxWidth(0.65f)) {
                         Text(
-                            text = "By $chefName",
-                            style = AppTextStyles.smallTextRegular2,
-                            color = AppColors.gray3
+                            text = recipeName,
+                            style = AppTextStyles.smallTextBold,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
                         )
                     }
-                    Spacer(Modifier.weight(1f))
+
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.timer),
-                            contentDescription = "time",
-                            modifier = Modifier.size(16.dp),
-                            tint = AppColors.gray3
-                        )
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text(
-                            text = time,
-                            style = AppTextStyles.smallTextRegular2,
-                            color = AppColors.gray3
-                        )
+                        repeat(5) { index ->
+                            Icon(
+                                imageVector = Icons.Default.Star,
+                                contentDescription = null,
+                                tint = if (index < rating.toInt()) AppColors.secondary100 else AppColors.gray2,
+                                modifier = Modifier.size(14.dp)
+                            )
+                        }
+                    }
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            AsyncImage(
+                                model = chefImageUrl,
+                                contentDescription = "chef image",
+                                modifier = Modifier
+                                    .size(30.dp)
+                                    .clip(CircleShape)
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(
+                                text = "By $chefName",
+                                style = AppTextStyles.smallTextRegular2,
+                                color = AppColors.gray3
+                            )
+                        }
+                        Spacer(Modifier.weight(1f))
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.timer),
+                                contentDescription = "time",
+                                modifier = Modifier.size(16.dp),
+                                tint = AppColors.gray3
+                            )
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text(
+                                text = time,
+                                style = AppTextStyles.smallTextRegular2,
+                                color = AppColors.gray3
+                            )
+                        }
                     }
                 }
+
+                Spacer(modifier = Modifier.width(45.dp))
             }
         }
 
