@@ -1,16 +1,10 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.search_recipes
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.survivalcoding.gangnam2kiandroidstudy.AppApplication
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.component.FilterSearchState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,13 +16,24 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 @HiltViewModel
 @OptIn(FlowPreview::class)
-class SearchRecipesViewModel @Inject constructor(private val recipeRepository: RecipeRepository) : ViewModel() {
+class SearchRecipesViewModel @Inject constructor(private val recipeRepository: RecipeRepository) :
+    ViewModel() {
 
     private val _state = MutableStateFlow(SearchRecipesState())
     val state = _state.asStateFlow()
+
+    fun onAction(action: SearchRecipesAction) {
+        when (action) {
+            is SearchRecipesAction.SearchQueryChanged -> onSearchQueryChanged(action.query)
+            is SearchRecipesAction.FilterChanged -> onFilterChanged(action.filters)
+            is SearchRecipesAction.ShowFilterSheet -> onShowFilterSheet()
+            is SearchRecipesAction.DismissFilterSheet -> onDismissFilterSheet()
+        }
+    }
 
     init {
         viewModelScope.launch {
@@ -92,12 +97,19 @@ class SearchRecipesViewModel @Inject constructor(private val recipeRepository: R
         }
     }
 
-    fun onSearchQueryChanged(query: String) {
+    private fun onSearchQueryChanged(query: String) {
         _state.update { it.copy(searchQuery = query) }
     }
 
-    fun onFilterChanged(filterState: FilterSearchState) {
-        _state.update { it.copy(appliedFilters = filterState) }
+    private fun onFilterChanged(filters: FilterSearchState) {
+        _state.update { it.copy(appliedFilters = filters, isFilterSheetVisible = false) }
+    }
+
+    private fun onShowFilterSheet() {
+        _state.update { it.copy(isFilterSheetVisible = true) }
+    }
+
+    private fun onDismissFilterSheet() {
+        _state.update { it.copy(isFilterSheetVisible = false) }
     }
 }
-
