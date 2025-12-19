@@ -4,9 +4,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -28,15 +30,16 @@ fun MediumButton(
     text: String,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
+    enabled: Boolean = true,
 ) {
     Box(
         modifier = modifier
             .size(width = 243.dp, height = 54.dp)
             .background(
-                color = AppColors.primary100,
+                color = if (enabled) AppColors.primary100 else AppColors.gray4,
                 shape = RoundedCornerShape(10.dp)
             )
-            .clickable {
+            .clickable(enabled = enabled) {
                 onClick()
             }
     ) {
@@ -70,5 +73,9 @@ fun MediumButton(
 @Preview(showBackground = true)
 @Composable
 fun MediumButtonPreview() {
-    MediumButton("Button")
+    Column {
+        MediumButton("Enabled")
+        Spacer(modifier = Modifier.height(8.dp))
+        MediumButton("Disabled", enabled = false)
+    }
 }
