@@ -42,9 +42,9 @@ class TitleViewModel @Inject constructor(
 
                 // 이벤트 전송
                 if (!isConnected) {
-                    _event.emit(TitleEvent.ShowSnackbar("네트워크 연결이 끊겼습니다 😢"))
+                    _event.emit(TitleEvent.NetworkLost)
                 } else if (!wasConnected && isConnected) {
-                    _event.emit(TitleEvent.ShowSnackbar("네트워크가 다시 연결되었습니다 🚀"))
+                    _event.emit(TitleEvent.NetworkRestored)
                 }
             }
         }

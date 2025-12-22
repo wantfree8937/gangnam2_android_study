@@ -7,8 +7,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.coroutines.launch
 
 @Composable
 fun TitleRoot(
@@ -18,22 +20,33 @@ fun TitleRoot(
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     val snackbarHostState = remember { SnackbarHostState() }
-    val scrollState = rememberScrollState()
+    val scope = rememberCoroutineScope()
 
     LaunchedEffect(viewModel.event) {
         viewModel.event.collect { event ->
             when (event) {
-                is TitleEvent.ShowSnackbar -> {
-                    snackbarHostState.showSnackbar(
-                        message = event.message,
-                        duration = SnackbarDuration.Short
-                    )
+                is TitleEvent.NetworkLost -> {
+                    scope.launch {
+                        snackbarHostState.showSnackbar(
+                            message = "네트워크 연결이 끊겼습니다",
+                            duration = SnackbarDuration.Short
+                        )
+                    }
+                }
+
+                is TitleEvent.NetworkRestored -> {
+                    scope.launch {
+                        snackbarHostState.showSnackbar(
+                            message = "네트워크가 다시 연결되었습니다",
+                            duration = SnackbarDuration.Short
+                        )
+                    }
                 }
             }
         }
     }
 
-
+    val scrollState = rememberScrollState()
 
     TitleScreen(
         state = state,
