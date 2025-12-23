@@ -1,5 +1,6 @@
 package com.survivalcoding.gangnam2kiandroidstudy.presentation.search_recipes
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.RecipeRepository
@@ -119,6 +120,7 @@ class SearchRecipesViewModel @Inject constructor(private val recipeRepository: R
     }
 
     private fun onDismissFilterSheet() {
+        Log.d("SearchRecipesViewModel", "필터창 닫힘")
         _state.update { it.copy(isFilterSheetVisible = false) }
         viewModelScope.launch {
             _event.emit(SearchRecipesEvent.ShowSnackbar("필터가 취소되었습니다."))
