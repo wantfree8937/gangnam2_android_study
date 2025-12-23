@@ -25,7 +25,7 @@ fun SavedRecipesRoot(
 
     LaunchedEffect(listState) {
         snapshotFlow {
-            !listState.canScrollForward && listState.canScrollBackward
+            !listState.canScrollForward
         }
             .distinctUntilChanged()
             .filter { it }
