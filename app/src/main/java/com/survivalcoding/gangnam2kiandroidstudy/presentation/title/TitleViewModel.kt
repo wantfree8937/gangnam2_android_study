@@ -37,10 +37,8 @@ class TitleViewModel @Inject constructor(
             networkMonitor.isOnline.collect { isConnected ->
                 val wasConnected = _state.value.isNetworkAvailable
 
-                // UI 상태 업데이트
                 _state.update { it.copy(isNetworkAvailable = isConnected) }
 
-                // 이벤트 전송
                 if (!isConnected) {
                     _event.emit(TitleEvent.NetworkLost)
                 } else if (!wasConnected && isConnected) {
