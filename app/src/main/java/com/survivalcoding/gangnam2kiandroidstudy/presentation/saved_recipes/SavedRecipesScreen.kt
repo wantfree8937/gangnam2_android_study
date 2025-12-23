@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,7 +23,8 @@ import com.survivalcoding.gangnam2kiandroidstudy.ui.AppTextStyles
 fun SavedRecipesScreen(
     recipes: List<Recipe>,
     onRecipeClick: (Int) -> Unit,
-    onBookmarkClick: (Recipe) -> Unit
+    onBookmarkClick: (Recipe) -> Unit,
+    listState: LazyListState
 ) {
     Column(
         modifier = Modifier
@@ -37,6 +39,7 @@ fun SavedRecipesScreen(
         )
         Spacer(modifier = Modifier.height(10.dp))
         LazyColumn(
+            state = listState,
             modifier = Modifier
                 .weight(1f)
                 .padding(horizontal = 30.dp),
