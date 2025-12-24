@@ -13,5 +13,5 @@
 .externalNativeBuild
 .cxx
 local.properties
-
 .idea/
+images_for_agent/

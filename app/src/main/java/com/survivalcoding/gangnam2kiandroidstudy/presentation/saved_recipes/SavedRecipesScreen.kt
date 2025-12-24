@@ -2,11 +2,11 @@ package com.survivalcoding.gangnam2kiandroidstudy.presentation.saved_recipes
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
@@ -24,12 +24,13 @@ fun SavedRecipesScreen(
     recipes: List<Recipe>,
     onRecipeClick: (Int) -> Unit,
     onBookmarkClick: (Recipe) -> Unit,
-    listState: LazyListState
+    listState: LazyListState,
+    paddingValues: PaddingValues // 1. PaddingValues 파라미터 추가
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .statusBarsPadding(),
+            .padding(paddingValues), // 2. Scaffold의 Padding 적용
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(

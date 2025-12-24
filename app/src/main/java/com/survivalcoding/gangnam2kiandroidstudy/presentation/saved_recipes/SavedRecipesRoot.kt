@@ -29,19 +29,17 @@ fun SavedRecipesRoot(
         }
             .distinctUntilChanged()
             .filter { it }
-            .collect {
-                snackbarHostState.showSnackbar("더 이상 스크롤할 수 없습니다.")
-            }
+            .collect { snackbarHostState.showSnackbar("더 이상 스크롤할 수 없습니다.") }
     }
 
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },
-    ) {
-        SavedRecipesScreen(
+    ) { paddingValues -> SavedRecipesScreen(
             recipes = recipes,
             onRecipeClick = onRecipeClick,
             onBookmarkClick = viewModel::toggleBookmark,
             listState = listState,
+            paddingValues = paddingValues
         )
     }
 }
