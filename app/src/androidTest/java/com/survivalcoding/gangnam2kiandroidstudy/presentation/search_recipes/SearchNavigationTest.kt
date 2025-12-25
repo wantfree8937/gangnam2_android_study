@@ -10,9 +10,11 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import com.survivalcoding.gangnam2kiandroidstudy.core.routing.Route
+import com.survivalcoding.gangnam2kiandroidstudy.data.repository.FakeClipboardRepository
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.FakeIngredientRepository
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.FakeProcedureRepository
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.FakeRecipeRepository
+import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.CopyLinkUseCase
 import com.survivalcoding.gangnam2kiandroidstudy.domain.use_case.GetRecipeDetailsUseCase
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.ingredient.IngredientRoot
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.ingredient.IngredientViewModel
@@ -54,7 +56,9 @@ class SearchNavigationTest {
             fakeIngredientRepository,
             fakeProcedureRepository
         )
-        ingredientViewModel = IngredientViewModel(getRecipeDetailsUseCase)
+        val fakeClipboardRepository = FakeClipboardRepository()
+        val copyLinkUseCase = CopyLinkUseCase(fakeClipboardRepository)
+        ingredientViewModel = IngredientViewModel(getRecipeDetailsUseCase, copyLinkUseCase)
     }
 
     @Test
