@@ -43,6 +43,7 @@ fun RecipeCard2(
     time: String,
     rating: Double,
     imageUrl: String,
+    isBookmarked: Boolean,
     onCardClick: () -> Unit,
     onBookmarkClick: () -> Unit
 ) {
@@ -102,7 +103,7 @@ fun RecipeCard2(
                         Icon(
                             painter = painterResource(id = R.drawable.inactive),
                             contentDescription = "Bookmark",
-                            tint = AppColors.gray3,
+                            tint = if (isBookmarked) AppColors.primary100 else AppColors.gray3,
                             modifier = Modifier.size(16.dp)
                         )
                     }
@@ -156,6 +157,7 @@ private fun RecipeCard2Preview() {
         time = "10 Mins",
         rating = 3.5,
         imageUrl = "",
+        isBookmarked = false,
         onCardClick = {}, // Preview에서는 비워둡니다.
         onBookmarkClick = {} // Preview에서는 비워둡니다.
     )

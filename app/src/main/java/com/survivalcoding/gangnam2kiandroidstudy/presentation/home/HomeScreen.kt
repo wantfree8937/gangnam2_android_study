@@ -130,6 +130,7 @@ fun HomeScreen(
                     time = homeRecipe.recipe.time,
                     rating = homeRecipe.recipe.rating,
                     imageUrl = homeRecipe.recipe.image,
+                    isBookmarked = homeRecipe.isBookmarked,
                     onCardClick = { onRecipeClick(homeRecipe.recipe.id) },
                     onBookmarkClick = { onAction(HomeAction.RecipeBookmarked(homeRecipe.recipe)) }
                 )
