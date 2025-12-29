@@ -16,11 +16,38 @@ import com.survivalcoding.gangnam2kiandroidstudy.presentation.sign_in.SignInScre
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.sign_up.SignUpScreen
 import com.survivalcoding.gangnam2kiandroidstudy.presentation.title.TitleRoot
 
+import androidx.compose.runtime.LaunchedEffect
+import com.survivalcoding.gangnam2kiandroidstudy.core.routing.Route
+
 @Composable
 fun NavigationRoot(
     modifier: Modifier = Modifier,
+    deepLinkDest: Route? = null
 ) {
     val topLevelBackStack = rememberNavBackStack(Route.Title)
+
+    LaunchedEffect(deepLinkDest) {
+        deepLinkDest?.let { dest ->
+            when (dest) {
+                is Route.Main -> {
+                    // 메인 화면으로 이동 (로그인 건너뛰기 등 상황 고려, 여기서는 단순 이동)
+                    // 기존 스택을 정리하고 싶다면 clear() 호출
+                    if (topLevelBackStack.last() != dest) {
+                        topLevelBackStack.clear()
+                        topLevelBackStack.add(dest)
+                    }
+                }
+                is Route.RecipeDetail -> {
+                    // 상세 화면은 스택에 추가
+                    topLevelBackStack.add(dest)
+                }
+                else -> {
+                    // 그 외 경로는 상황에 따라 추가 (여기선 예시로 추가)
+                    topLevelBackStack.add(dest)
+                }
+            }
+        }
+    }
 
     NavDisplay(
         modifier = modifier,
@@ -51,8 +78,10 @@ fun NavigationRoot(
                 )
             }
 
-            entry<Route.Main> {
-                val tabBackStack = rememberNavBackStack(Route.Home)
+            entry<Route.Main> { navKey ->
+                // navKey.initialTab을 사용하여 탭 백스택 초기화
+                // deepLink로 들어온 경우 navKey가 업데이트되어 재구성될 것임
+                val tabBackStack = rememberNavBackStack(navKey.initialTab)
 
                 MainScreen(
                     backStack = tabBackStack,

@@ -95,7 +95,7 @@ fun SignInScreen(
                     text = "Sign In"
                 ) {
                     backStack.clear()
-                    backStack.add(Route.Main)
+                    backStack.add(Route.Main())
                 }
                 Spacer(modifier = Modifier.height(20.dp))
                 Row(
