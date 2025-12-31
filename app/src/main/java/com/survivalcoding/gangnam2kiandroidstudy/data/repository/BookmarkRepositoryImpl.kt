@@ -1,30 +1,28 @@
 package com.survivalcoding.gangnam2kiandroidstudy.data.repository
 
-import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.recipe.RecipeDataSource
+import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.local.RecipeDao
+import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.local.RecipeEntity
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.repository.BookmarkRepository
 import javax.inject.Inject
 
 class BookmarkRepositoryImpl @Inject constructor(
-    private val recipeDataSource: RecipeDataSource
+    private val recipeDao: RecipeDao
 ) : BookmarkRepository {
 
-    private val bookmarkedIds = mutableSetOf(1, 2, 3, 4, 5)
-
     override suspend fun getBookmarks(): List<Recipe> {
-        val allRecipes = recipeDataSource.getRecipes()
-        return allRecipes.filter { it.id in bookmarkedIds }
+        return recipeDao.getAllRecipes().map { it.toDomain() }
     }
 
     override suspend fun addBookmark(recipe: Recipe) {
-        bookmarkedIds.add(recipe.id)
+        recipeDao.insertRecipe(RecipeEntity.fromDomain(recipe))
     }
 
     override suspend fun removeBookmark(recipe: Recipe) {
-        bookmarkedIds.remove(recipe.id)
+        recipeDao.deleteRecipeById(recipe.id)
     }
 
     override suspend fun isBookmarked(id: Int): Boolean {
-        return bookmarkedIds.contains(id)
+        return recipeDao.isBookmarked(id)
     }
 }

@@ -22,6 +22,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.local.RecipeDao
+
 @Module
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
@@ -34,8 +36,8 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideBookmarkRepository(dataSource: RecipeDataSource): BookmarkRepository {
-        return BookmarkRepositoryImpl(dataSource)
+    fun provideBookmarkRepository(dao: RecipeDao): BookmarkRepository {
+        return BookmarkRepositoryImpl(dao)
     }
 
     @Provides
