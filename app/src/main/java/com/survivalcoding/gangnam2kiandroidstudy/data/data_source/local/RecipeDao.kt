@@ -11,6 +11,9 @@ interface RecipeDao {
     @Query("SELECT * FROM recipes")
     suspend fun getAllRecipes(): List<RecipeEntity>
 
+    @Query("SELECT * FROM recipes")
+    fun getAllRecipesFlow(): kotlinx.coroutines.flow.Flow<List<RecipeEntity>>
+
     @Query("SELECT * FROM recipes WHERE id = :id")
     suspend fun getRecipeById(id: Int): RecipeEntity?
 

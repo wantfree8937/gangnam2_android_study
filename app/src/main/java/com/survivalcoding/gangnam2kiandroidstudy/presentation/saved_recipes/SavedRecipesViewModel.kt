@@ -36,10 +36,12 @@ class SavedRecipesViewModel @Inject constructor(
         viewModelScope.launch {
             _isLoading.value = true
             try {
-                _recipes.value = getSavedRecipesUseCase.execute()
+                getSavedRecipesUseCase.execute().collect { recipes ->
+                    _recipes.value = recipes
+                    _isLoading.value = false
+                }
             } catch (e: Exception) {
                 _error.value = e.message ?: "알 수 없는 오류가 발생했습니다"
-            } finally {
                 _isLoading.value = false
             }
         }
@@ -52,7 +54,6 @@ class SavedRecipesViewModel @Inject constructor(
     fun toggleBookmark(recipe: Recipe) {
         viewModelScope.launch {
             getSavedRecipesUseCase.toggleBookmark(recipe)
-            _recipes.value = getSavedRecipesUseCase.execute()
         }
     }
 }

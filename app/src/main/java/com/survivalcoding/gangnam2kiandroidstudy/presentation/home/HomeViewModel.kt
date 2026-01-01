@@ -56,14 +56,18 @@ class HomeViewModel @Inject constructor(
 
     private fun onRecipeBookmarked(recipe: Recipe) {
         viewModelScope.launch {
-            toggleBookmarkUseCase.execute(recipe)
-            _state.update { currentState ->
-                val newHomeRecipes = currentState.homeRecipes.map {
-                    if (it.recipe.id == recipe.id) it.copy(isBookmarked = !it.isBookmarked) else it
+            try {
+                toggleBookmarkUseCase.execute(recipe)
+                _state.update { currentState ->
+                    val newHomeRecipes = currentState.homeRecipes.map {
+                        if (it.recipe.id == recipe.id) it.copy(isBookmarked = !it.isBookmarked) else it
+                    }
+                    currentState.copy(homeRecipes = newHomeRecipes)
                 }
-                currentState.copy(homeRecipes = newHomeRecipes)
+                onSelectCategory(_state.value.selectedCategory)
+            } catch (e: Exception) {
+                _event.send(HomeEvent.ShowError("Failed to bookmark: ${e.message}"))
             }
-            onSelectCategory(_state.value.selectedCategory)
         }
     }
 
