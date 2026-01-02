@@ -3,7 +3,6 @@ package com.survivalcoding.gangnam2kiandroidstudy.core.di
 import android.content.Context
 import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.recipe.RecipeDataSource
 import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.chef.ChefDataSource
-import com.survivalcoding.gangnam2kiandroidstudy.data.repository.BookmarkRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.ClipboardRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.IngredientRepositoryImpl
 import com.survivalcoding.gangnam2kiandroidstudy.data.repository.ProcedureRepositoryImpl
@@ -34,11 +33,6 @@ object RepositoryModule {
         return RecipeRepositoryImpl(dataSource)
     }
 
-    @Provides
-    @Singleton
-    fun provideBookmarkRepository(dao: RecipeDao): BookmarkRepository {
-        return BookmarkRepositoryImpl(dao)
-    }
 
     @Provides
     @Singleton

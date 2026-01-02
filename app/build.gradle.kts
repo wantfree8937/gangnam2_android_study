@@ -23,11 +23,7 @@ android {
         create("prod") {
             dimension = "environment"
         }
-        create("qa") {
-            dimension = "environment"
-            applicationIdSuffix = ".qa"
-            versionNameSuffix = "-qa"
-        }
+
         create("staging") {
             dimension = "environment"
             applicationIdSuffix = ".staging"
