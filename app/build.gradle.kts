@@ -7,6 +7,7 @@ plugins {
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
     id("jacoco")
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
@@ -125,6 +126,11 @@ dependencies {
 
     androidTestImplementation("com.google.dagger:hilt-android-testing:2.57.1")
     kspAndroidTest("com.google.dagger:hilt-android-compiler:2.57.1")
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore)
+    implementation(libs.play.services.auth)
 }
 
 val fileFilter = listOf(
