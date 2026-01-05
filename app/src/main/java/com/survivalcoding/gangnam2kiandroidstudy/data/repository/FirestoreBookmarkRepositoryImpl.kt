@@ -73,9 +73,10 @@ class FirestoreBookmarkRepositoryImpl @Inject constructor(
 
     override suspend fun addBookmark(recipe: Recipe) {
         try {
+            val collection = getCollectionRef() ?: throw IllegalStateException("User not logged in")
             val dto = RecipeDto.fromDomain(recipe)
             Log.d("FirestoreRepo", "Adding bookmark: ${recipe.id}")
-            getCollectionRef()?.document(recipe.id.toString())?.set(dto, SetOptions.merge())?.await()
+            collection.document(recipe.id.toString()).set(dto, SetOptions.merge()).await()
             Log.d("FirestoreRepo", "Bookmark added successfully")
         } catch (e: Exception) {
             Log.e("FirestoreRepo", "Error adding bookmark", e)
@@ -85,8 +86,9 @@ class FirestoreBookmarkRepositoryImpl @Inject constructor(
 
     override suspend fun removeBookmark(recipe: Recipe) {
         try {
+            val collection = getCollectionRef() ?: throw IllegalStateException("User not logged in")
             Log.d("FirestoreRepo", "Removing bookmark: ${recipe.id}")
-            getCollectionRef()?.document(recipe.id.toString())?.delete()?.await()
+            collection.document(recipe.id.toString()).delete().await()
             Log.d("FirestoreRepo", "Bookmark removed successfully")
         } catch (e: Exception) {
             Log.e("FirestoreRepo", "Error removing bookmark", e)
