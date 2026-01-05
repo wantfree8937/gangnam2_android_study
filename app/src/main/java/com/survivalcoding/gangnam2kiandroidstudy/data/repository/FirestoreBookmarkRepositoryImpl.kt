@@ -27,13 +27,14 @@ class FirestoreBookmarkRepositoryImpl @Inject constructor(
 
     override suspend fun getBookmarks(): List<Recipe> {
         return try {
-            val snapshot = getCollectionRef()?.get()?.await()
-            snapshot?.documents?.mapNotNull { doc ->
+            val collection = getCollectionRef() ?: throw IllegalStateException("User not logged in")
+            val snapshot = collection.get().await()
+            snapshot.documents.mapNotNull { doc ->
                 doc.toObject(RecipeDto::class.java)?.toDomain()
-            } ?: emptyList()
+            }
         } catch (e: Exception) {
             e.printStackTrace()
-            emptyList()
+            throw e
         }
     }
 
@@ -98,11 +99,12 @@ class FirestoreBookmarkRepositoryImpl @Inject constructor(
 
     override suspend fun isBookmarked(id: Int): Boolean {
         return try {
-            val doc = getCollectionRef()?.document(id.toString())?.get()?.await()
-            doc?.exists() == true
+            val collection = getCollectionRef() ?: throw IllegalStateException("User not logged in")
+            val doc = collection.document(id.toString()).get().await()
+            doc.exists()
         } catch (e: Exception) {
             Log.e("FirestoreRepo", "Error checking bookmark", e)
-            false
+            throw e
         }
     }
 
