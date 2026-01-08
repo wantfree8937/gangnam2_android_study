@@ -13,6 +13,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.survivalcoding.gallery.data.model.Photo
+import com.survivalcoding.gallery.presentation.GalleryScreen
+import com.survivalcoding.gallery.presentation.PhotoDetailScreen
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.json.Json
 import java.net.URLDecoder
