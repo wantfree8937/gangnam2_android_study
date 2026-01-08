@@ -47,6 +47,7 @@
                 <data android:pathPrefix="/recipes/" />
             </intent-filter>
         </activity>
+
         <provider
             android:name=".recipe_provider.provider.RecipeProvider"
             android:authorities="${applicationId}.recipe.provider"

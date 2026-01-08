@@ -15,3 +15,5 @@ google-services.json
 .kotlin/
 .antigravityrules
 .DS_Store
+.gemini/
+*.hprof

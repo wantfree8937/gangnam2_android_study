@@ -23,3 +23,4 @@ rootProject.name = "Gangnam2kiAndroidStudy"
 include(":app")
 include(":reader")
 include(":contacts")
+include(":gallery")
