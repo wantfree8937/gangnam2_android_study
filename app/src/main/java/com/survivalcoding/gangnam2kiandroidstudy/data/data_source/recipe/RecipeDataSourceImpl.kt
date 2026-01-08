@@ -2,10 +2,14 @@ package com.survivalcoding.gangnam2kiandroidstudy.data.data_source.recipe
 
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.Recipe
 import com.survivalcoding.gangnam2kiandroidstudy.domain.model.RecipeResponse
+import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.local.RecipeDao
+import com.survivalcoding.gangnam2kiandroidstudy.data.data_source.local.RecipeEntity
 import javax.inject.Inject
 import kotlinx.serialization.json.Json
 
-class RecipeDataSourceImpl @Inject constructor() : RecipeDataSource {
+class RecipeDataSourceImpl @Inject constructor(
+    private val recipeDao: RecipeDao
+) : RecipeDataSource {
 
     private val mockJsonData = """
     {
@@ -285,6 +289,13 @@ class RecipeDataSourceImpl @Inject constructor() : RecipeDataSource {
 
     override suspend fun getRecipes(): List<Recipe> {
         val json = Json { ignoreUnknownKeys = true }
-        return json.decodeFromString<RecipeResponse>(mockJsonData).recipes
+        val recipes = json.decodeFromString<RecipeResponse>(mockJsonData).recipes
+        
+        // Room DB에 저장
+        recipes.forEach { recipe ->
+            recipeDao.insertRecipe(RecipeEntity.fromDomain(recipe))
+        }
+        
+        return recipes
     }
 }

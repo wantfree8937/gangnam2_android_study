@@ -28,4 +28,10 @@ interface RecipeDao {
     
     @Query("DELETE FROM recipes WHERE id = :id")
     suspend fun deleteRecipeById(id: Int)
+
+    @Query("SELECT * FROM recipes")
+    fun getAllRecipesCursor(): android.database.Cursor
+
+    @Query("SELECT * FROM recipes WHERE id = :id")
+    fun getRecipeByIdCursor(id: Int): android.database.Cursor
 }

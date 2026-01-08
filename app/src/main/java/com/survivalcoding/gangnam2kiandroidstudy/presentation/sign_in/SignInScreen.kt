@@ -62,7 +62,8 @@ fun SignInScreen(
                 viewModel.signInWithGoogle(token)
             }
         } catch (e: ApiException) {
-            // 로그인 실패 처리 (로그 등)
+            e.printStackTrace()
+            viewModel.onError("Google Sign In Failed: ${e.statusCode}")
         }
     }
 
@@ -167,7 +168,7 @@ fun SignInScreen(
                     ElevatedButton(
                         onClick = {
                             val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                                .requestIdToken("278798495458-fnkq372clopaerligfh3srn6e8qbrs66.apps.googleusercontent.com")
+                                .requestIdToken(context.getString(R.string.default_web_client_id))
                                 .requestEmail()
                                 .build()
                             val googleSignInClient = GoogleSignIn.getClient(context, gso)

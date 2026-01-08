@@ -54,6 +54,10 @@ class SignInViewModel @Inject constructor(
             }
         }
     }
+
+    fun onError(message: String) {
+        _state.update { it.copy(isLoading = false, error = message) }
+    }
 }
 
 data class SignInState(
