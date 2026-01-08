@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 rootProject.name = "Gangnam2kiAndroidStudy"
 include(":app")
 include(":reader")
+include(":contacts")
