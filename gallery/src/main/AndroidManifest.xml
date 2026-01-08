@@ -15,7 +15,7 @@
         android:theme="@android:style/Theme.Material.Light.NoActionBar">
         
         <activity
-            android:name=".presentation.GalleryActivity"
+            android:name=".GalleryActivity"
             android:exported="true"
             android:label="Gallery"
             android:theme="@android:style/Theme.Material.Light.NoActionBar">

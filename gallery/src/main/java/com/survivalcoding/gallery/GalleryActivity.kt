@@ -1,4 +1,4 @@
-package com.survivalcoding.gallery.presentation
+package com.survivalcoding.gallery
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

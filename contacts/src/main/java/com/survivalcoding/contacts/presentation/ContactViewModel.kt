@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.survivalcoding.contacts.domain.model.Contact
 import com.survivalcoding.contacts.domain.repository.ContactRepository
-import com.survivalcoding.contacts.util.HangulUtils
+import com.survivalcoding.contacts.core.util.HangulUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch

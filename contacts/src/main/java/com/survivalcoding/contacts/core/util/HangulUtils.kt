@@ -1,4 +1,4 @@
-package com.survivalcoding.contacts.util
+package com.survivalcoding.contacts.core.util
 
 object HangulUtils {
     private val HANGUL_INITIAL = charArrayOf(
